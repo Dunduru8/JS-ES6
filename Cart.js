@@ -114,7 +114,7 @@ const buildItemDiv = (img, Name, Price,) => {
     }
 
 const buildCatalog = (list) => {
-    let goodsList  = list.map(item => buildItemDiv(item.img, item.Name, item.Price));
+    const goodsList  = list.map(item => buildItemDiv(item.img, item.Name, item.Price));
     const goodsListJoin = goodsList.join("");
     document.getElementById("goods").innerHTML = goodsListJoin;
     }
