@@ -109,7 +109,7 @@ const goods = [
     }
     ];
 
-const buildItemDiv = (img, Name, Price,) => {
+const buildItemDiv = (img, name, price,) => {
     return `<div class="featured_items_box"><a href = "#"><img src = ${img}></a><h2 class = "items_list_text">${Name}</h2><p class = "items_list_price">${Price}</p><div class = "add_tocard"><a href= "#">Add to card</a></div></div>`
     }
 
