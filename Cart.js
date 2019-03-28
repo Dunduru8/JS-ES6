@@ -10,142 +10,42 @@ class CatalogItem{
     }
 }
 
+function sendRequest(url, callback) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", url);           
+    xhr.send();
+
+    xhr.onreadystatechange = () => {
+      if(xhr.readyState === XMLHttpRequest.DONE) {
+        callback(JSON.parse(xhr.responseText));
+      }
+    }
+  };                                         //функция для отправки запроса на сервер
+
+const API_URL = "http://localhost:3000";       //http://localhost:3000/goods ???
+
 class ItemList{
-    constructor(){
+ constructor(){
         this.items = [];
     }
-    fetchItems(){               //потом здесь будет запрос на сервер 
-        this.items = [
-      {
-      "id": 1,
-      "name": "Hoodie",
-      "img": "https://student-geekbrains.000webhostapp.com/img/Product_1.jpg",
-      "thumb": "https://student-geekbrains.000webhostapp.com/img/Product_1_small.jpg",
-      "singl": "https://student-geekbrains.000webhostapp.com/img/Product_single_item_1.jpg",
-      "price": 35.7,
-      "color": "black",
-      "category": "men",
-      "material": "cotton",
-      "brand": "Mango"
-      },
-      {
-      "id": 2,
-      "name": "Coat",
-      "img": "https://student-geekbrains.000webhostapp.com/img/Product_2.jpg",
-      "thumb": "https://student-geekbrains.000webhostapp.com/img/Product_2_small.jpg",
-      "singl": "https://student-geekbrains.000webhostapp.com/img/Product_single_item_2.jpg",
-      "price": 150,
-      "color": "black",
-      "category": "men",
-      "material": "cotton",
-      "brand": "Chloi"
-      },
-      {
-      "id": 3,
-      "name": "Jacket",
-      "img": "https://student-geekbrains.000webhostapp.com/img/Product_3.jpg",
-      "thumb": "https://student-geekbrains.000webhostapp.com/img/Product_3_small.jpg",
-      "singl": "https://student-geekbrains.000webhostapp.com/img/Product_single_item_3.jpg",
-      "price": 55.45,
-      "color": "navy blue",
-      "category": "men",
-      "material": "cotton",
-      "brand": "Diesek"
-      },
-      {
-      "id": 4,
-      "name": "T-shirt",
-      "img": "https://student-geekbrains.000webhostapp.com/img/Product_4.jpg",
-      "thumb": "https://student-geekbrains.000webhostapp.com/img/Product_4_small.jpg",
-      "singl": "https://student-geekbrains.000webhostapp.com/img/Product_single_item_4.jpg",
-      "price": 25.5,
-      "color": "gray",
-      "category": "men",
-      "material": "cotton",
-      "brand": "Bakery"
-      },
-      {
-      "id": 5,
-      "name": "Sweater",
-      "img": "https://student-geekbrains.000webhostapp.com/img/Product_5.jpg",
-      "thumb": "https://student-geekbrains.000webhostapp.com/img/Product_5_small.jpg",
-      "singl": "https://student-geekbrains.000webhostapp.com/img/Product_single_item_5.jpg",
-      "price": 55,
-      "color": "gray",
-      "category": "men",
-      "material": "akril",
-      "brand": "Oneil"
-      },
-      {
-      "id": 6,
-      "name": "Vest",
-      "img": "https://student-geekbrains.000webhostapp.com/img/Product_6.jpg",
-      "thumb": "https://student-geekbrains.000webhostapp.com/img/Product_6_small.jpg",
-      "singl": "https://student-geekbrains.000webhostapp.com/img/Product_single_item_6.jpg",
-      "price": 50.25,
-      "color": "blue",
-      "category": "men",
-      "material": "polyester",
-      "brand": "Versache"
-      },
-      {
-      "id": 7,
-      "name": "Jacket",
-      "img": "https://student-geekbrains.000webhostapp.com/img/Product_7.jpg",
-      "thumb": "https://student-geekbrains.000webhostapp.com/img/Product_7_small.jpg",
-      "singl": "https://student-geekbrains.000webhostapp.com/img/Product_single_item_7.jpg",
-      "price": 50.25,
-      "color": "light blue",
-      "category": "men",
-      "material": "cotton blend",
-      "brand": "Quiksilve"
-      },
-      {
-      "id": 8,
-      "name": "Coat",
-      "img": "https://student-geekbrains.000webhostapp.com/img/Product_8.jpg",
-      "thumb": "https://student-geekbrains.000webhostapp.com/img/Product_8_small.jpg",
-      "singl": "https://student-geekbrains.000webhostapp.com/img/Product_single_item_8.jpg",
-      "price": 50.25,
-      "color": "blue",
-      "category": "men",
-      "material": "cotton",
-      "brand": "Guccy"
-      },
-      {
-      "id": 9,
-      "name": "Vest",
-      "img": "https://student-geekbrains.000webhostapp.com/img/Product_6.jpg",
-      "thumb": "https://student-geekbrains.000webhostapp.com/img/Product_6_small.jpg",
-      "singl": "https://student-geekbrains.000webhostapp.com/img/Product_single_item_6.jpg",
-      "price": 50.25,
-      "color": "blue",
-      "category": "men",
-      "material": "polyester",
-      "brand": "Versache"
-      }
-
-        ];
-        
-        this.items = this.items.map(item => new CatalogItem(item.img, item.name, item.price))
+    fetchItems(callback){               
+        sendRequest(`${API_URL}/goods`, (items) => {
+        this.items = items.map(item => new CatalogItem(item.img, item.name, item.price));
+        callback();
+        });
     }
     render () {
        const itemsHtmls = this.items.map(item => item.render());
        return itemsHtmls.join("");  
     }
-    summPrice() {
-        let sum = 0;
-        const itemsSummPrice = this.items.forEach(function(item){
-        sum += +item.price;   
-        });
-        return sum;   //подчсет общей стоимости товара      
-    }  
 }
 const items = new ItemList();
-items.fetchItems();
+items.fetchItems(() => {
+    document.getElementById("goods").innerHTML = items.render();
+  });
 
-document.getElementById("goods").innerHTML = items.render();
-document.getElementById("goodsSummPrice").innerHTML = items.summPrice();
+
+
 
 
 
