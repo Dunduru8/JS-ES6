@@ -10,39 +10,49 @@ class CatalogItem{
     }
 }
 
-function sendRequest(url, callback) {
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", url);           
-    xhr.send();
-
-    xhr.onreadystatechange = () => {
-      if(xhr.readyState === XMLHttpRequest.DONE) {
-        callback(JSON.parse(xhr.responseText));
+function sendRequest(url) {
+    return new Promise ((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", url);           
+        xhr.send();
+ 
+        xhr.onreadystatechange = () => {
+        if(xhr.readyState === XMLHttpRequest.DONE) {
+          if(xhr.status === 200){
+            resolve(JSON.parse(xhr.responseText));
+            console.log(JSON.parse(xhr.responseText))
+          } else {
+              reject();
+          }
+        }
       }
-    }
-  };                                         //функция для отправки запроса на сервер
+       
+    });
+};                                         //функция для отправки запроса на сервер
 
-const API_URL = "http://localhost:3000";       //http://localhost:3000/goods ???
+const API_URL = "http://localhost:3000";       
 
 class ItemList{
  constructor(){
         this.items = [];
     }
-    fetchItems(callback){               
-        sendRequest(`${API_URL}/goods`, (items) => {
-        this.items = items.map(item => new CatalogItem(item.img, item.name, item.price));
-        callback();
-        });
-    }
+    fetchItems(){  
+        return sendRequest(`${API_URL}/goods`).then ((items) => {this.items = items.map(item => new CatalogItem(item.img, item.name, item.price))
+                
+               });
+        };             
+      
+    
     render () {
        const itemsHtmls = this.items.map(item => item.render());
        return itemsHtmls.join("");  
     }
 }
 const items = new ItemList();
-items.fetchItems(() => {
-    document.getElementById("goods").innerHTML = items.render();
-  });
+items.fetchItems().then(() => {
+document.getElementById("goods").innerHTML = items.render();
+});
+
 
 
 
@@ -74,9 +84,10 @@ class CartList{
         this.items = [];
     }
     fetchCartItems(){
-        this.items = [];  //TODO запрос на сервер
-        this.items = this.items.map(item => new CartDropItem(item.thumb, item.name, item.price, item.quantity))
-    }
+        this.items = [];  
+        return sendRequest(`${API_URL}/cart`).then ((items) => {this.items = items.map(item => new CartDropItem(item.thumb, item.name, item.price, item.quantity))
+        });
+    };        
     render () {
        const itemsHtmls = this.items.map(item => item.render());
        return itemsHtmls.join("");  
@@ -84,9 +95,10 @@ class CartList{
 };
 
 //const cartItems = new CartList();
-//cartItems.fetchCartItems();
+//cartItems.fetchCartItems().then(() => {
+//document.getElementById("empty_Cart).innerHTML = items.render();
+//});
 
-//document.getElementById("cart").innerHTML = cartItems.render();
 
 
 //классы для выпадающей корзины
@@ -111,9 +123,11 @@ class CartDropList{
         this.items = [];
     }
     fetchCartDropItems(){
-        this.items = [];  //TODO запрос на сервер
-        this.items = this.items.map(item => new CartDropItem(item.thumb, item.name, item.price))
-    }
+        this.items = [];  
+        return sendRequest(`${API_URL}/cart`).then ((items) => {this.items = items.map(item => new CartDropItem(item.thumb, item.name, item.price))
+        });
+    };        
+    
     render () {
        const itemsHtmls = this.items.map(item => item.render());
        return itemsHtmls.join("");  
@@ -121,6 +135,6 @@ class CartDropList{
 };
 
 //const cartDropItems = new CartDropList();
-//cartDropItems.fetchCartDropItems();
-
-//document.getElementById("cart").innerHTML = cartDropItems.render();
+//cartDropItems.fetchCartDropItems().then(() => {
+//document.getElementById("empty_Cart").innerHTML = items.render();
+//});
