@@ -6,10 +6,11 @@
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js"></script>
   </head> 
    
     <body>
-      <div class="content">
+      <div class="content" id = "vue">
         <div class="top">
          <header class="header">
            <div class="container header-flex"> 
@@ -47,7 +48,7 @@
                </div>
                </div>
                <input type="text" placeholder="Search for Item..." id= "search">
-               <button type ="submit" id= "submit"><img src="https://student-geekbrains.000webhostapp.com/img/search.png" alt="search"></button>
+               <button type ="submit" @click="handleSearchClick" id= "submit"><img src="https://student-geekbrains.000webhostapp.com/img/search.png" alt="search"></button>
             </form>
           </div>
           <div class= "header-right">
@@ -56,30 +57,18 @@
                   
                   <div class="drop_down_cart">
                      <div id = "empty_Cart">
-                       <div class= "item_in_cart">
-                          <a href="Singl.html"><img src="#" alt="item_in_cart"></a>
+                       <div v-for="item in cart" class= "item_in_cart">
+                          <a href="#"><img v-bind:src = "item.thumb" alt="item_in_cart"></a>
                           <div class= "about_item">
-                              <h3 class="name_item">Rebox Zane</h3>
+                              <h3 class="name_item">{{item.name}}</h3>
                               <div class= "stars"><a href="#"><img src="https://student-geekbrains.000webhostapp.com/img/stars.jpg" alt="stars"></a></div>
-                              <div class="item_price_cart">
-                                  <img src="#" alt="price">
-                              </div>
+                              <div class="item_price_cart">{{item.price}}</div>
                           </div>
                              <div class="delit_items">
-                                  <a href="#"><img src="https://student-geekbrains.000webhostapp.com/img/del.png" alt="del"></a>
+                                  <a href="#" v-bind:data-id="item.id" ><img src="https://student-geekbrains.000webhostapp.com/img/del.png" alt="del"></a>
                              </div>
                        </div>
-                       <div class= "item_in_cart">
-                          <a href="Singl.html"><img src="#" alt="item_in_cart"></a>
-                          <div class= "about_item">
-                              <h3 class="name_item">Rebox Zane</h3>
-                              <div class= "stars"><a href="#"><img src="https://student-geekbrains.000webhostapp.com/img/stars.jpg" alt="stars"></a></div>
-                              <div class="item_price_cart"></div>
-                          </div>
-                          <div class="delit_items">
-                              <a href="#"><img src="https://student-geekbrains.000webhostapp.com/img/del.png" alt="del"></a>
-                          </div>
-                       </div>
+                    
                     </div>
                       <div class= "total">
                           <h3 class= "total_text" >total</h3>
@@ -530,6 +519,14 @@
                </div>
            </div>
         <section class= "produkts_items_img" id = "goods">
+            <div v-for="item in filteredItems" class="item">
+             <div class="featured_items_box"><a href = "#"><img v-bind:src = "item.img"></a>
+               <h2 class = "items_list_text">{{item.name}}</h2>
+               <p class = "items_list_price">{{item.price}}</p>
+               <div class = "add_tocard"><a href= "#" v-bind:data-id="item.id">Add to card</a>
+               </div>
+             </div>
+          </div> 
         </section>
 
        </div>
@@ -652,6 +649,8 @@ a pulvinar purus condimentum a. Aliquam condimentum mattis neque sed pretium”
          </footer>
        </div>     
     </body>
-    <script src = "Cart.js"></script>
+   
+    
+    <script src="vue.js"></script>
 </html>   
  
