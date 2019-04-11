@@ -47,8 +47,7 @@
                    </div>
                </div>
                </div>
-               <input type="text" v-model = "searchQuery"   placeholder="Search for Item..." id= "search">
-               <button type ="submit" @click="handleSearchClick" id= "submit"><img src="https://student-geekbrains.000webhostapp.com/img/search.png" alt="search"></button>
+               <search @search = "handleSearchClick"></search>
             </form>
           </div>
           <div class= "header-right">
@@ -508,7 +507,7 @@
                </div>
            </div>
         
-            <catalog :query="filterValue" @onbuy="handleBuyClick" class="item"></catalog> 
+            <catalog :query="filterValue" @onbuy="handleBuyClick" ></catalog> 
        
 
        </div>

@@ -108,5 +108,33 @@
       "material": "cotton blend",
       "brand": "Dkeny"
     }
+  ],
+  "cart": [
+    {
+      "id": 1,
+      "name": "Coat",
+      "img": "https://student-geekbrains.000webhostapp.com/img/Product_2.jpg",
+      "thumb": "https://student-geekbrains.000webhostapp.com/img/Product_2_small.jpg",
+      "singl": "https://student-geekbrains.000webhostapp.com/img/Product_single_item_2.jpg",
+      "price": 150.25,
+      "color": "black",
+      "category": "men",
+      "material": "cotton",
+      "brand": "Chloi",
+      "quantity": 1
+    },
+    {
+      "id": 2,
+      "name": "T-shirt",
+      "img": "https://student-geekbrains.000webhostapp.com/img/Product_9.jpg",
+      "thumb": "https://student-geekbrains.000webhostapp.com/img/Product_9_small.jpg",
+      "singl": "https://student-geekbrains.000webhostapp.com/img/Product_single_item_9.jpg",
+      "price": 50.25,
+      "color": "blue",
+      "category": "men",
+      "material": "cotton blend",
+      "brand": "Dkeny",
+      "quantity": 1
+    }
   ]
 }
