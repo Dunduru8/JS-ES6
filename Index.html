@@ -47,7 +47,7 @@
                    </div>
                </div>
                </div>
-               <input type="text" placeholder="Search for Item..." id= "search">
+               <input type="text" v-model = "searchQuery"   placeholder="Search for Item..." id= "search">
                <button type ="submit" @click="handleSearchClick" id= "submit"><img src="https://student-geekbrains.000webhostapp.com/img/search.png" alt="search"></button>
             </form>
           </div>
@@ -56,23 +56,12 @@
                  <a href="cart.html"><img class="anim-cart" src="https://student-geekbrains.000webhostapp.com/img/cart.svg" alt="cart" id="cart"></a>
                   
                   <div class="drop_down_cart">
-                     <div id = "empty_Cart">
-                       <div v-for="item in cart" class= "item_in_cart">
-                          <a href="#"><img v-bind:src = "item.thumb" alt="item_in_cart"></a>
-                          <div class= "about_item">
-                              <h3 class="name_item">{{item.name}}</h3>
-                              <div class= "stars"><a href="#"><img src="https://student-geekbrains.000webhostapp.com/img/stars.jpg" alt="stars"></a></div>
-                              <div class="item_price_cart">{{item.price}}</div>
-                          </div>
-                             <div class="delit_items">
-                                  <a href="#" v-bind:data-id="item.id" ><img src="https://student-geekbrains.000webhostapp.com/img/del.png" alt="del"></a>
-                             </div>
-                       </div>
-                    
-                    </div>
+                     
+                    <cart_drop_list :drop="cart" @ondel="handleDeleteClick"></cart_drop_list>
+                      
                       <div class= "total">
                           <h3 class= "total_text" >total</h3>
-                          <div class="tatal_price" id = "total_price">500</div>
+                          <div class="tatal_price" id = "total_price">{{ total }}</div>
                       </div>
                       <div class= "checkout">
                           <a href="Checkout.html">checkout</a>
@@ -518,16 +507,9 @@
                  </div>
                </div>
            </div>
-        <section class= "produkts_items_img" id = "goods">
-            <div v-for="item in filteredItems" class="item">
-             <div class="featured_items_box"><a href = "#"><img v-bind:src = "item.img"></a>
-               <h2 class = "items_list_text">{{item.name}}</h2>
-               <p class = "items_list_price">{{item.price}}</p>
-               <div class = "add_tocard"><a href= "#" v-bind:data-id="item.id">Add to card</a>
-               </div>
-             </div>
-          </div> 
-        </section>
+        
+            <catalog :query="filterValue" @onbuy="handleBuyClick" class="item"></catalog> 
+       
 
        </div>
         </div> 
