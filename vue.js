@@ -138,7 +138,7 @@ Vue.component("cart_item", {
       handleSearchClick(query) {
         this.filterValue = query;
       },
-  
+     
       handleBuyClick(item) {
         const cartItem = this.cart.find((entry) => entry.id === item.id);
         if (cartItem) {
@@ -170,31 +170,29 @@ Vue.component("cart_item", {
             });
         }
       },
-    
-     
-     handleDeleteClick(item) {
+      handleDeleteClick(item) {
         if (item.quantity > 1) {
-         fetch(`${API_URL}/cart/${item.id}`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ quantity: item.quantity - 1 }),
-         })
-          .then((response) => response.json())
-          .then((item) => {
-            const itemIdx = this.cart.findIndex((entry) => entry.id === item.id);
-            Vue.set(this.cart, itemIdx, item);
-          });
-       } else {
+          fetch(`${API_URL}/cart/${item.id}`, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ quantity: item.quantity - 1 }),
+          })
+            .then((response) => response.json())
+            .then((item) => {
+              const itemIdx = this.cart.findIndex((entry) => entry.id === item.id);
+              Vue.set(this.cart, itemIdx, item);
+            });
+        } else {
           fetch(`${API_URL}/cart/${item.id}`, {
             method: "DELETE",
           })
-          .then(() => {
-            this.cart = this.cart.filter((cartItem) => cartItem.id !== item.id);
-          });
-      }
-     } 
+            .then(() => {
+              this.cart = this.cart.filter((cartItem) => cartItem.id !== item.id);
+            });
+        }
+      },
   }, 
   computed: {
     total() {
