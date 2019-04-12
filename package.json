@@ -1,0 +1,19 @@
+{
+  "name": "dz_7",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "vue": "^2.6.10"
+  },
+  "devDependencies": {
+    "webpack": "^4.29.6"
+  }
+}

@@ -1,8 +1,27 @@
 const API_URL = "http://localhost:3000";
 
+Vue.component ("search", {
 
-Vue.component("catalog_item", {
+  template:  `<div>
+              <input type="text" v-model = "searchQuery"   placeholder="Search for Item..." id= "search">
+              <button type ="submit" @click="handleSearchClick" id= "submit"><img src="https://student-geekbrains.000webhostapp.com/img/search.png" alt="search"></button> 
+              </div>`,
+  
+  data(){
+    return {
+      searchQuery: ""
+    }
+  },
+  methods: {
+    handleSearchClick() {
+      this.$emit("search", this.searchQuery)
+    }
+   }
+});
+
+Vue.component("catalog-item", {
     props: ["item"],
+
     template: `<div class = "featured_items_box">
                  <a href = "#"><img v-bind:src = "item.img"></a>
                  <h2 class = "items_list_text">{{item.name}}</h2>
@@ -19,6 +38,10 @@ Vue.component("catalog_item", {
 
 Vue.component ("catalog", {
   props: ["query"],
+  
+  template: `<div class= "produkts_items_img" id = "goods">
+               <catalog-item v-for="entry in filteredItems" :item="entry" @onBuy="handleBuyClick"></catalog-item>
+              </div>`,
   methods: {
     handleBuyClick(item){
       this.$emit("onbuy", item);
@@ -48,21 +71,20 @@ Vue.component ("catalog", {
       this.items = items;
     });
   },
-  template: `<div class= "produkts_items_img" id = "goods">
-               <catalog-item v-for="entry in filteredItems" :item="entry" @onBuy="handleBuyClick">
-               </catalog-item>
-              </div>`,
+  
 
 });
 
 Vue.component("cart_item", {
   props: ["item"],
-  template: `div v-for="item in cart" class= "item_in_cart">
+
+  template: `<div class= "item_in_cart">
                <a href="#"><img v-bind:src = "item.thumb" alt="item_in_cart"></a>
                <div class= "about_item">
                  <h3 class="name_item">{{item.name}}</h3>
                  <div class= "stars"><a href="#"><img src="https://student-geekbrains.000webhostapp.com/img/stars.jpg" alt="stars"></a></div>
-                 <div  class="item_price_cart">{{item.price}} {{item.quantity}}</div>
+                 <div  class="item_price_cart">{{item.price}}</div>
+                 <div class="item_price_cart">{{item.quantity}}</div>
                </div>
                <div class="delit_items">
                  <a href="#" @click.prevent="handleDeleteClick(item)"><img src="https://student-geekbrains.000webhostapp.com/img/del.png" alt="del"></a>
@@ -100,21 +122,21 @@ Vue.component("cart_item", {
     handleDeleteClick(item) {
     this.$emit("ondel", item);
       }
-  },
-
+  }
   });
+
+ //корневой компонент 
 
   const app = new Vue({
     el: "#vue",
     data: {
       cart:[],
-      searchQuery: "",
       filterValue: "",
     },
     methods: {
       
-      handleSearchClick() {
-        this.filterValue = this.searchQuery;
+      handleSearchClick(query) {
+        this.filterValue = query;
       },
   
       handleBuyClick(item) {
